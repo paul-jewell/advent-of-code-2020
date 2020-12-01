@@ -1,42 +1,39 @@
-# Read input into list
+(defpackage #:advent2020.day01
+  (:use #:cl)
+  (:export #:day1a #:day1b))
 
+(in-package #:advent2020.day01)
+
+# Read input into list
 (defparameter day1-input "~/Projects/advent-of-code-2020/day1-input.txt")
 (defparameter expenses (mapcar #'parse-integer (uiop:read-file-lines day1-input)))
 
-(defun ex-val (n)
-  ;; Return expense value at index n
-  (nth n expenses))
+;; Refactor - first version - credit and thanks to samuel-hunter (on github)
+;; My observations/learning from this:
+;;  - Keywording the loop elements makes clearer
+;;  - Loop keyword :on 
+;;  - So much clearer than my first version!
 
-(defun day1-a ()
-  (let ((expense-length (1- (length expenses))))
-    (loop for i
-          from 0 to expense-length
-          do (loop for j from (1+ i) to expense-length
-                   when (= (+ (nth i expenses)
-                              (nth j expenses))
-                           2020)
-                     return (format t "Value a: ~a~%Value b: ~a~%Product: ~a~%"
-                                    (nth i expenses)
-                                    (nth j expenses)
-                                    (* (nth i expenses) (nth j expenses)))))))
+(defun day1a ()
+    (loop :for nums :on expenses
+          :for x := (first nums)
+          :do (loop :for y :in (rest nums)
+                    :when (= 2020 (+ x y))
+                      :do (return-from day1a
+                            (values (* x y) x y)))))
 
-(defun day1-b ()
-  (let ((expense-length (1- (length expenses))))
-    (loop for i
-          from 0 to expense-length
-          do (loop for j
-                   from (1+ i) to expense-length
-                   do (loop for k
-                            from (1+ j) to expense-length
-                            when (= (+ (nth i expenses)
-                                       (nth j expenses)
-                                       (nth k expenses))
-                                    2020)
-                              return (format t "Value a: ~a~%Value b: ~a~%Value c: ~a~%Product: ~a~%"
-                                             (nth i expenses)
-                                             (nth j expenses)
-                                             (nth k expenses)
-                                             (* (nth i expenses) (nth j expenses) (nth k expenses))))))))
+(defun day1b ()
+  (loop :for nums :on expenses
+        :for x := (first nums)
+        :do (loop :for nums2 :on (rest nums)
+                  :for y := (first nums2)
+                  :do (loop :for z :in (rest nums2)
+                            :when (= 2020 (+ x y z))
+                              :do (return-from day1b
+                                    (values (* x y z) x y z))))))
+
+
+
 
 
 
