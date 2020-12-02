@@ -4,7 +4,7 @@
 
 (in-package #:advent2020.day01)
 
-# Read input into list
+;; Read input into list
 (defparameter day1-input "~/Projects/advent-of-code-2020/day1-input.txt")
 (defparameter expenses (mapcar #'parse-integer (uiop:read-file-lines day1-input)))
 
