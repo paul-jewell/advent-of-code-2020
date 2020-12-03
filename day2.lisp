@@ -37,7 +37,7 @@
 (defun day2a ()
   (format t
           "The number of correct passwords: ~a~%"
-          (length (remove-if-not #'a-valid-password-p passwords))))
+          (count-if #'a-valid-password-p passwords)))
 
 (defun xor (x y)
   (and (or x y)
@@ -58,4 +58,4 @@
 (defun day2b ()
   (format t
           "The number of correct passwords: ~a~%"
-          (length (remove-if-not #'b-valid-password-p passwords))))
+          (count-if #'b-valid-password-p passwords)))
