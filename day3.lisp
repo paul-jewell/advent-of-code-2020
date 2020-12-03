@@ -14,11 +14,10 @@
 (defparameter trees (make-array (list (length tree-lines) (length (first tree-lines)))
                                 :initial-contents tree-lines))
 
-(defun tree-count (row-inc col-inc)
-  (length (loop :for r :below (first (array-dimensions trees)) :by row-inc
-                :for c :from 0 :by col-inc
-                :when (eq (aref trees r (mod c 31)) #\#) ;; we have a tree...
-                  collect (list (aref trees r (mod c 31))))))
+(defun tree-count (dr dc)
+  (loop :for r :below (first (array-dimensions trees)) :by dr
+        :for c :from 0 :by dc
+        :count (char= (aref trees r (mod c 31)) #\#)))
 
 (defun day3a ()
   (tree-count 1 3))
