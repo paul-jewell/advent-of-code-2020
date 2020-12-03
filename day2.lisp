@@ -39,6 +39,10 @@
           "The number of correct passwords: ~a~%"
           (length (remove-if-not #'a-valid-password-p passwords))))
 
+(defun xor (x y)
+  (and (or x y)
+       (not (and x y))))
+
 (defun b-valid-password-p (passlist)
   (let* ((first-pos (first passlist))
          (second-pos (second passlist))
@@ -46,12 +50,10 @@
          (password (nth 3 passlist))
          (first-letter (nth (1- first-pos) password))
          (second-letter (nth (1- second-pos) password)))
-    (if  (and (or (eq first-letter letter)
-                  (eq second-letter letter))
-              (not (and (eq first-letter letter)
-                        (eq second-letter letter))))
+    (if  (xor (eq first-letter letter)
+              (eq second-letter letter))
          T
-         nil)))
+         nil))) 
 
 (defun day2b ()
   (format t
