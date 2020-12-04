@@ -7,6 +7,10 @@ Many thanks to everyone sharing their code on github - much
 appreciated!
 
 In particular:
-** [[https://github.com/samuel-hunter/advent2020][samuel-hunter]]
+- [[https://github.com/samuel-hunter/advent2020][samuel-hunter]]
+For clarifying the loop syntax by example from day 1
+- [[https://github.com/larsen/advent2020][larsen]]
+For the project setup and test driven approach with fiveam
 * License
+GNU 3.0
 
