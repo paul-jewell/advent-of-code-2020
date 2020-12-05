@@ -10,7 +10,8 @@ In particular:
 - [[https://github.com/samuel-hunter/advent2020][samuel-hunter]]
 For clarifying the loop syntax by example from day 1
 - [[https://github.com/larsen/advent2020][larsen]]
-For the project setup and test driven approach with fiveam
+-- For the project setup and test driven approach with fiveam
+-- Code using hash table on day4 - much clearer than my first effort!
 * License
 GNU 3.0
 
