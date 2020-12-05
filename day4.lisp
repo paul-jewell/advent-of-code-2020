@@ -53,13 +53,7 @@
       (T nil))))
 
 (defun validate-eye-colour-p (ecl)
- (or (equal ecl "amb")
-     (equal ecl "blu")
-     (equal ecl "brn")
-     (equal ecl "gry")
-     (equal ecl "grn")
-     (equal ecl "hzl")
-     (equal ecl "oth")))
+  (find ecl '("amb" "blu" "brn" "gry" "grn" "hzl" "oth") :test #'string=))
 
 (defun validate-hair-colour-p (hcl)
   (and (eql #\# (char hcl 0))

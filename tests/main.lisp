@@ -27,10 +27,13 @@
 ;; is successfully submitted, I create tests for the puzzle solution, to make
 ;; sure I don't break anything during the refactoring stage.
 
-(test day4
+(test day4-test
   (is (= (day4/test1) 2))
-  (is (= (day4/solution1 237))))
+  (is (= (day4/test2) 4)))
 
+(test day4-solutions
+  (is (= (day4/solution1) 237))
+  (is (= (day4/solution2) 172)))
 
 (defun test-advent2020 ()
   (run! 'advent2020))
