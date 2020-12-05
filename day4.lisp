@@ -56,15 +56,10 @@
   (find ecl '("amb" "blu" "brn" "gry" "grn" "hzl" "oth") :test #'string=))
 
 (defun validate-hair-colour-p (hcl)
-  (and (eql #\# (char hcl 0))
-       (eql (length hcl) 7)  ;; # char followed by 6
-       (let ((colour (subseq hcl 1)))
-         (subsetp (coerce colour 'list)
-                  '(#\0 #\1 #\2 #\3 #\4 #\5 #\6 #\7 #\8 #\9 #\0 #\a #\b #\c #\d #\e #\f)))))
+  (scan "^#[a-f0-9]{6}$" hcl))
 
 (defun validate-passport-id-p (pid)
-  (and (= (length pid) 9)
-       (subsetp (coerce pid 'list) '(#\0 #\1 #\2 #\3 #\4 #\5 #\6 #\7 #\8 #\9))))
+  (scan "^\\d{9}$" pid))
 
 (defun passport-valid-2-p (passport)
   (let ((byr (cadr (assoc :BYR passport)))

@@ -34,6 +34,3 @@
 (test day4-solutions
   (is (= (day4/solution1) 237))
   (is (= (day4/solution2) 172)))
-
-(defun test-advent2020 ()
-  (run! 'advent2020))
