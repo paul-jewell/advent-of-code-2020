@@ -15,7 +15,12 @@
            day4/test1
            day4/solution1
            day4/test2
-           day4/solution2))
+           day4/solution2
+
+           day5/test1
+           day5/solution1
+           day5/solution2))
+
 
 (defpackage #:advent2020/test
   (:use #:cl

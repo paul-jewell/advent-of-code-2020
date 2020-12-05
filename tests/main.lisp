@@ -34,3 +34,10 @@
 (test day4-solutions
   (is (= (day4/solution1) 237))
   (is (= (day4/solution2) 172)))
+
+(test day5-test
+  (is (= (day5/test1) 820)))
+
+(test day5-solutions
+  (is (= (day5/solution1) 806))
+  (is (= (day5/solution2) 562)))
