@@ -1,8 +1,4 @@
-(defpackage #:advent2020.day03
-  (:use #:cl)
-  (:export #:day3a #:day3b))
-
-(in-package #:advent2020.day03)
+(in-package #:advent2020)
 
 (defparameter day3-input "~/Projects/advent-of-code-2020/input/day3-input.txt")
 
@@ -19,10 +15,10 @@
         :for c :from 0 :by dc
         :count (char= (aref trees r (mod c 31)) #\#)))
 
-(defun day3a ()
+(defun day3/solution1 ()
   (tree-count 1 3))
 
-(defun day3b ()
+(defun day3/solution2 ()
   (* (tree-count 1 1)
      (tree-count 1 3)
      (tree-count 1 5)

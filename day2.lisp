@@ -1,8 +1,4 @@
-(defpackage #:advent2020.day02
-  (:use #:cl)
-  (:export #:day2a #:day2b))
-
-(in-package #:advent2020.day02)
+(in-package #:advent2020)
 
 (defparameter day2-input "~/Projects/advent-of-code-2020/input/day2-input.txt")
 
@@ -34,10 +30,8 @@
         T
         nil)))
 
-(defun day2a ()
-  (format t
-          "The number of correct passwords: ~a~%"
-          (count-if #'a-valid-password-p passwords)))
+(defun day2/solution1 ()
+  (count-if #'a-valid-password-p passwords))
 
 (defun xor (x y)
   (and (or x y)
@@ -55,7 +49,5 @@
          T
          nil))) 
 
-(defun day2b ()
-  (format t
-          "The number of correct passwords: ~a~%"
-          (count-if #'b-valid-password-p passwords)))
+(defun day2/solution2 ()
+  (count-if #'b-valid-password-p passwords))
