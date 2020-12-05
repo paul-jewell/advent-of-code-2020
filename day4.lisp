@@ -9,27 +9,6 @@
 (defun read-passports (passport-file)
   (split "\\n\\n" (uiop:read-file-string passport-file)))
 
-(defun parse-passports (in &optional (passports '()) (curr-passport ""))
-  (let ((line (read-line in nil)))
-    (if (not (null line))
-        (if (= (length line) 0)
-            (parse-passports in (append passports (list curr-passport)))
-            (parse-passports in passports (concatenate 'string curr-passport line " ")))
-        (append passports (list curr-passport)))))
-
-(defun parse-passport (pass-str)
-  (let ((pass-tokens (split "\\s+" pass-str)))
-    (loop :for s in pass-tokens
-          collect (progn
-                    (let ((key (intern (string-upcase (subseq s 0 3)) "KEYWORD"))
-                          (value (subseq s 4)))
-                      (list key value))))))
-
-(defun parse-input (file)
-  (let* ((passports (mapcar #'parse-passport (with-open-file (in file)
-                                               (parse-passports in)))))
-    passports))
-
 (defun passport-valid-1-p (passport)
   (let ((fields-in-passport (loop for field in (split "\\s" passport)
                                   collect (first (split ":" field)))))
