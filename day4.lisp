@@ -10,8 +10,8 @@
   (split "\\n\\n" (uiop:read-file-string passport-file)))
 
 (defun passport-valid-1-p (passport)
-  (let ((fields-in-passport (loop for field in (split "\\s" passport)
-                                  collect (first (split ":" field)))))
+  (let ((fields-in-passport (loop :for field :in (split "\\s" passport)
+                                  :collect (first (split ":" field)))))
     (every (lambda (f)
              (find f fields-in-passport :test #'string=))
            '("byr" "iyr" "eyr" "hgt" "hcl" "ecl" "pid"))))
