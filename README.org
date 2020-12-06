@@ -8,11 +8,31 @@ appreciated!
 
 In particular:
 - [[https://github.com/samuel-hunter/advent2020][samuel-hunter]]
- - For clarifying the loop syntax by example from day 1
+  - For clarifying the loop syntax by example from day 1
 - [[https://github.com/larsen/advent2020][larsen]]
- - For the project setup and test driven approach with fiveam
-
- - Code using hash table on day4 - much clearer than my first effort!
+  - For the project setup and test driven approach with fiveam
+  - Code using hash table on day4 - much clearer than my first effort!
+- [[https://www.youtube.com/channel/UCxkMDXQ5qzYOgXPRnOBrp1w][Mike
+  Zemanski]] and his followers
+  - seat-id Code refactor for day 5. Although his video on day 6 was
+    in Clojure, he reviewed his day 5 code, and demonstrated a much
+    more concise way to calculate the seat id. I then refactored my
+    code accordingly.
 * License
-GNU 3.0
+Advent of code solutions - my solutions, created in common lisp
+    Copyright (C) 2020  Paul Jewell
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see [[https://www.gnu.org/licenses/]]
+
 
