@@ -41,3 +41,10 @@
 (test day5-solutions
   (is (= (day5/solution1) 806))
   (is (= (day5/solution2) 562)))
+
+(test day6-test
+  (is (= (day6/test1) 11)))
+
+(test day6-solutions
+  (is (= (day6/solution1) 6625))
+  (is (= (day6/solution2) 3360)))

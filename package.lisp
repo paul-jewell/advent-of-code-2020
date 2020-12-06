@@ -19,7 +19,11 @@
 
            day5/test1
            day5/solution1
-           day5/solution2))
+           day5/solution2
+
+           day6/test1
+           day6/solution1
+           day6/solution2))
 
 
 (defpackage #:advent2020/test

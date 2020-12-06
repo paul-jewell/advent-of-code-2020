@@ -12,7 +12,8 @@
                (:file "day2")
                (:file "day3")
                (:file "day4")
-               (:file "day5"))
+               (:file "day5")
+               (:file "day6"))
   :in-order-to ((test-op (test-op #:advent2020/test))))
 
 (asdf:defsystem #:advent2020/test
