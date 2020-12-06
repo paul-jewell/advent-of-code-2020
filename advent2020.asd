@@ -12,8 +12,12 @@
                (:file "day2")
                (:file "day3")
                (:file "day4")
+<<<<<<< HEAD
                (:file "day5")
                (:file "day6"))
+=======
+               (:file "day5"))
+>>>>>>> 5d8ef91162b15ac20f306099368d01c877ff8220
   :in-order-to ((test-op (test-op #:advent2020/test))))
 
 (asdf:defsystem #:advent2020/test

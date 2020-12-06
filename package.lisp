@@ -18,12 +18,16 @@
            day4/solution2
 
            day5/test1
+<<<<<<< HEAD
            day5/solution1
            day5/solution2
 
            day6/test1
            day6/solution1
            day6/solution2))
+=======
+           day5/solution1))
+>>>>>>> 5d8ef91162b15ac20f306099368d01c877ff8220
 
 
 (defpackage #:advent2020/test
