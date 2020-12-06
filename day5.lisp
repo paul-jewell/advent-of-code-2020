@@ -6,19 +6,15 @@
 (defparameter day5-test-input-1 "~/Projects/advent-of-code-2020/input/day5-test-input-1.txt")
 (defparameter test-boarding-passes (uiop:read-file-lines day5-test-input-1))
 
+;; The boarding pass is essentially a binary representation, so using this information, we can
+;; simplify the process of finding the seat-id
+;; - This was seen in the video from Mike Zemanski: https://www.youtube.com/watch?v=I8dbKJ_315Q
+;;   although he is coding in clojure. Thanks Mike, and those commenters who pointed this out to him!
 (defun seat-id (boarding-pass)
-  (let ((row-min 0)
-        (row-max 127)
-        (col-min 0)
-        (col-max 7))
-    (loop :for c in (coerce boarding-pass 'list)
-          :do (cond
-                ((char= #\F c) (setq row-max (- row-max (floor (/ (- row-max row-min) 2)))))
-                ((char= #\B c) (setq row-min (+ row-min (ceiling (/ (- row-max row-min) 2)))))
-                ((char= #\R c) (setq col-min (+ col-min (ceiling (/ (- col-max col-min) 2)))))
-                ((char= #\L c) (setq col-max (- col-max (floor (/ (- col-max col-min) 2)))))
-                (t (format t "Error - incorrect character"))))
-    (+ (* row-min 8) col-min)))
+  (let ((vals '((#\B 1) (#\F 0) (#\R 1) (#\L 0))))
+    (loop :for i :from 0
+          :for c in (mapcar #'(lambda (c) (cadr (assoc c vals))) (reverse (coerce boarding-pass 'list)))
+          :sum (* (expt 2 i) c))))
 
 (defun day5/test1 ()
   (apply #'max (mapcar #'seat-id test-boarding-passes)))
