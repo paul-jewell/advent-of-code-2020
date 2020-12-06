@@ -8,7 +8,7 @@ appreciated!
 
 In particular:
 - [[https://github.com/samuel-hunter/advent2020][samuel-hunter]]
-For clarifying the loop syntax by example from day 1
+ - For clarifying the loop syntax by example from day 1
 - [[https://github.com/larsen/advent2020][larsen]]
  - For the project setup and test driven approach with fiveam
 
