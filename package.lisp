@@ -27,7 +27,7 @@
 
            day7/test1
            day7/solution1
-           day7/solution2)))
+           day7/solution2))
 
 
 
