@@ -41,7 +41,6 @@
 (test day5-solutions
   (is (= (day5/solution1) 806))
   (is (= (day5/solution2) 562)))
-<<<<<<< HEAD
 
 (test day6-test
   (is (= (day6/test1) 11)))
@@ -49,5 +48,7 @@
 (test day6-solutions
   (is (= (day6/solution1) 6625))
   (is (= (day6/solution2) 3360)))
-=======
->>>>>>> 5d8ef91162b15ac20f306099368d01c877ff8220
+
+(test day7-test
+  (is (= (day7/test1) 4)))
+
