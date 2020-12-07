@@ -12,6 +12,8 @@ In particular:
 - [[https://github.com/larsen/advent2020][larsen]]
   - For the project setup and test driven approach with fiveam
   - Code using hash table on day4 - much clearer than my first effort!
+  - Code for managing the trees on day7. I couldn't have completed
+    this by myself (at least not in lisp!).
 - [[https://www.youtube.com/channel/UCxkMDXQ5qzYOgXPRnOBrp1w][Mike
   Zemanski]] and his followers
   - seat-id Code refactor for day 5. Although his video on day 6 was
