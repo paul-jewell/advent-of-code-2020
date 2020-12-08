@@ -56,3 +56,9 @@
 (test day7-solutions
   (is (= (day7/solution1) 248))
   (is (= (day7/solution2) 57281)))
+
+(test day8-test
+  (is (= (day8/test1) 5)))
+
+(test day8-solution
+  (is (= (day8/solution1) 1814)))
