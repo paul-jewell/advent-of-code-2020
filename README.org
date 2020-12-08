@@ -20,9 +20,24 @@ In particular:
     in Clojure, he reviewed his day 5 code, and demonstrated a much
     more concise way to calculate the seat id. I then refactored my
     code accordingly.
+- [[https://github.com/DavidBarringer/aoc2020/blob/master/day8/8b.lisp][David
+  Barringer]]
+  - Showing the way with day 8. I had made the solution to the first
+    part myself, but using alists. It proved a real handful
+    understanding what was changing and so on. David's approach with a
+    structure was so much clearer. Also a very nice way to use the
+    opcode to call the relevant function directly, compared to my
+    original cond statement approach. I could have got part 2 in the
+    end, but who knows how many hours it would have taken untangling
+    the spaghetti code I had created. I am expecting to have to do
+    more with the code reading over the next days, based on what I was
+    in 2018, so I have plenty of opportunities to work with this code
+    going forward. In the meantime, thanks David!
 * License
-Advent of code solutions - my solutions, created in common lisp
-    Copyright (C) 2020  Paul Jewell
+Advent of code solutions - my solutions, with code from others,
+    created in common lisp.
+    
+    Copyright (C) 2020  Paul Jewell and original coders.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
