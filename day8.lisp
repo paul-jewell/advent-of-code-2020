@@ -44,6 +44,8 @@
 (defun day8/solution1 ()
   (run-console1 (create-console (gensym) (parse-program day8-input)) nil))
 
+;; Part b specific code below
+
 (defun replace-code (code old-opcode new-opcode)
   (loop for i from 0 to (- (length code) 1)
         if (equal old-opcode (car (nth i code)))
@@ -57,14 +59,25 @@
          (run-console2 name visitlist))
         (t nil)))
 
+;; (defun day8/part2/ (program-file)
+;;   (let ((input (parse-program program-file)))
+;;     (car (remove nil (loop :for program :in (nconc (replace-code input 'jmp 'nop)
+;;                                                     (replace-code input 'nop 'jmp))
+;;                             :collect (run-console2 (create-console (gensym) program) nil))))))
+
+
+;; version without macro
+(defvar my-cons)
 (defun day8/part2 (program-file)
   (let ((input (parse-program program-file)))
     (car (remove nil (loop :for program :in (nconc (replace-code input 'jmp 'nop)
                                                     (replace-code input 'nop 'jmp))
-                            :collect (run-console2 (create-console 'hhgc program) nil))))))
+                           :collect (run-console2 (setq my-cons (make-console :code program)) nil))))))
+
 
 (defun day8/test2 ()
   (day8/part2 day8-test-input))
 
 (defun day8/solution2 ()
   (day8/part2 day8-input))
+

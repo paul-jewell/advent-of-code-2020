@@ -49,17 +49,26 @@
   (is (= (day6/solution1) 6625))
   (is (= (day6/solution2) 3360)))
 
-(test day7-test
+(test day7-part-a
   (is (= (day7/test1) 4))
-  (is (= (day7/test2) 32)))
+  (is (= (day7/solution1) 248)))
 
-(test day7-solutions
-  (is (= (day7/solution1) 248))
+(test day7-part-b
+  (is (= (day7/test2) 32))
   (is (= (day7/solution2) 57281)))
 
-(test day8-test
-  (is (= (day8/test1) 5))
+(test day8-test-part-a
+  (is (= (day8/test1) 5)))
+
+(test day8-solution-part-a
+  (is (= (day8/solution1) 1814)))
+
+(test day8-test-part-b
   (is (= (day8/test2) 8)))
 
-(test day8-solution
-  (is (= (day8/solution1) 1814)))
+(test day8-solution-part-b
+  (is (= (day8/solution2) 1056)))
+
+(test day9-test
+  (is (= (day9/test1) 127)))
+
