@@ -14,14 +14,12 @@
 ;; This is my refactored from my version
 ;; - following advice from zulu.inuoe (discord: Lisp channel)
 
-(defparameter *opcodes* '(("jmp" . jmp)
-                          ("nop" . nop)
-                          ("acc" . acc)))
+(defparameter *opcodes* '(jmp nop acc))
 
 (defun opcode-fn-or-error (opcode)
-  (let ((op (assoc opcode *opcodes* :test #'string-equal)))
+  (let ((op (find opcode *opcodes* :test #'string-equal)))
     (unless op (error "unknown opcode ~A" opcode))
-    (cdr op)))
+    op))
 
 (defun parse-program (program-file)
   (let ((code (uiop:read-file-lines program-file)))
