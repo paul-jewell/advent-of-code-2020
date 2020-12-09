@@ -39,10 +39,3 @@
            day9/solution1
            day9/solution2))
 
-(defpackage #:advent2020/test
-  (:use #:cl
-        #:advent2020
-        #:fiveam)
-  (:export #:run!
-           #:all-tests))
-
