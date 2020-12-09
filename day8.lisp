@@ -11,14 +11,25 @@
 (defmacro create-console (name code)
   `(setq ,name (make-console :code ,code)))
 
-;; This is my implementation 
+;; This is my refactored from my version
+;; - following advice from zulu.inuoe (discord: Lisp channel)
+
+(defparameter *opcodes* '(("jmp" . jmp)
+                          ("nop" . nop)
+                          ("acc" . acc)))
+
+(defun opcode-fn-or-error (opcode)
+  (let ((op (assoc opcode *opcodes* :test #'string-equal)))
+    (unless op (error "unknown opcode ~A" opcode))
+    (cdr op)))
+
 (defun parse-program (program-file)
-  (let ((code (uiop:read-file-lines program-file))
-        (*package* (find-package :advent2020)))
+  (let ((code (uiop:read-file-lines program-file)))
     (loop :for line :in code
           collect (destructuring-bind (opcode operand)
                       (split "\\s" line)
-                    (list (read-from-string opcode) (parse-integer operand))))))
+                    (list (opcode-fn-or-error opcode) (parse-integer operand))))))
+
 
 (defun run-console1 (name visitlist)
   (cond ((null (find (console-pc name) visitlist))
