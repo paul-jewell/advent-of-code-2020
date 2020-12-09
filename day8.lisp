@@ -8,8 +8,9 @@
   (acc 0)
   (pc 0))
 
-(defmacro create-console (name code)
-  `(setq ,(eval name) (make-console :code ,code)))
+(defmacro create-console (code)
+  (let ((name (gensym)))
+    `(setq ,name (make-console :code ,code))))
 
 ;; This is my implementation 
 (defun parse-program (program-file)
@@ -39,10 +40,10 @@
   (setf (console-pc (eval name)) (+ (car in) (console-pc (eval name)))))
 
 (defun day8/test1 ()
-  (run-console1 (create-console (gensym) (parse-program day8-test-input)) nil))
+  (run-console1 (create-console (parse-program day8-test-input)) nil))
 
 (defun day8/solution1 ()
-  (run-console1 (create-console (gensym) (parse-program day8-input)) nil))
+  (run-console1 (create-console (parse-program day8-input)) nil))
 
 ;; Part b specific code below
 
@@ -59,25 +60,16 @@
          (run-console2 name visitlist))
         (t nil)))
 
-;; (defun day8/part2/ (program-file)
-;;   (let ((input (parse-program program-file)))
-;;     (car (remove nil (loop :for program :in (nconc (replace-code input 'jmp 'nop)
-;;                                                     (replace-code input 'nop 'jmp))
-;;                             :collect (run-console2 (create-console (gensym) program) nil))))))
-
-
-;; version without macro
-(defvar my-cons)
 (defun day8/part2 (program-file)
   (let ((input (parse-program program-file)))
     (car (remove nil (loop :for program :in (nconc (replace-code input 'jmp 'nop)
                                                     (replace-code input 'nop 'jmp))
-                           :collect (run-console2 (setq my-cons (make-console :code program)) nil))))))
-
+                           :collect (run-console2 (create-console program) nil))))))
 
 (defun day8/test2 ()
   (day8/part2 day8-test-input))
 
 (defun day8/solution2 ()
   (day8/part2 day8-input))
+
 
