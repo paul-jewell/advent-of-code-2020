@@ -4,6 +4,13 @@
 ;;       to different users - your data set and answers therefore will be
 ;;       different.
 
+(defpackage #:advent2020/test
+  (:use #:cl
+        #:advent2020
+        #:fiveam)
+  (:export #:run!
+           #:all-tests))
+
 (in-package #:advent2020/test)
 
 (def-suite advent2020

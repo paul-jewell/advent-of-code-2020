@@ -20,6 +20,7 @@
   :in-order-to ((test-op (test-op #:advent2020/test))))
 
 (defsystem #:advent2020/test
+  :serial t
   :depends-on (#:advent2020
                #:fiveam)
   :components ((:module "tests"

@@ -8,9 +8,8 @@
   (acc 0)
   (pc 0))
 
-(defmacro create-console (code)
-  (let ((name (gensym)))
-    `(setq ,name (make-console :code ,code))))
+(defmacro create-console (name code)
+  `(setq ,name (make-console :code ,code)))
 
 ;; This is my implementation 
 (defun parse-program (program-file)
@@ -30,20 +29,22 @@
 
 (defun nop (name in)
   (declare (ignore in))
-  (setf (console-pc (eval name)) (+ 1 (console-pc (eval name)))))
+  (setf (console-pc name) (+ 1 (console-pc name))))
 
 (defun acc (name in)
-  (setf (console-acc (eval name)) (+ (car in) (console-acc (eval name))))
-  (setf (console-pc (eval name)) (+ 1 (console-pc (eval name)))))
+  (setf (console-acc name) (+ (car in) (console-acc name)))
+  (setf (console-pc name) (+ 1 (console-pc name))))
 
 (defun jmp (name in)
-  (setf (console-pc (eval name)) (+ (car in) (console-pc (eval name)))))
+  (setf (console-pc name) (+ (car in) (console-pc name))))
 
 (defun day8/test1 ()
-  (run-console1 (create-console (parse-program day8-test-input)) nil))
+  (let ((name 'prog))
+    (run-console1 (create-console name (parse-program day8-test-input)) nil)))
 
 (defun day8/solution1 ()
-  (run-console1 (create-console (parse-program day8-input)) nil))
+  (let ((name 'prog))
+    (run-console1 (create-console name (parse-program day8-input)) nil)))
 
 ;; Part b specific code below
 
@@ -61,10 +62,11 @@
         (t nil)))
 
 (defun day8/part2 (program-file)
-  (let ((input (parse-program program-file)))
-    (car (remove nil (loop :for program :in (nconc (replace-code input 'jmp 'nop)
-                                                    (replace-code input 'nop 'jmp))
-                           :collect (run-console2 (create-console program) nil))))))
+  (let ((input (parse-program program-file))
+        (name 'prog))
+       (car (remove nil (loop :for program :in (nconc (replace-code input 'jmp 'nop)
+                                                      (replace-code input 'nop 'jmp))
+                              :collect (run-console2 (create-console name program) nil))))))
 
 (defun day8/test2 ()
   (day8/part2 day8-test-input))
