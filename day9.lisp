@@ -4,13 +4,11 @@
 (defparameter day9-input "~/Projects/advent-of-code-2020/input/day9-input.txt")
 
 (defun sums-in-preamble (list)
-  (let ((result nil))
-    (loop :for values on list
-          :for x := (first values)
-          :do (loop :for y :in (rest values)
-                    :when (/= x y)
-                      :do (setq result (cons (+ x y) result))))
-    result))
+  (loop :for values on list
+        :for x := (first values)
+        :do (loop :for y :in (rest values)
+                  :when (/= x y)
+                    :collect (+ x y))))
 
 (defun part1 (filename preamble)
   (let ((data (mapcar #'parse-integer (uiop:read-file-lines filename))))
@@ -25,6 +23,17 @@
 
 (defun day9/solution1 ()
   (car (remove-if #'null (part1 day9-input 25))))
+
+(defun find-value (value list remaining-list)
+  (format t "Parameters: Value: ~d~%list: ~a~% rema: ~a~%" value list remaining-list)
+  (let ((sum (apply #'+ list)))
+    (cond ((null list) (find-value value (list (car remaining-list)) (cdr remaining-list)))
+          ((>  sum value) (find-value value (butlast list) remaining-list)) ; drop 1st value
+          ((= sum value) (+ (apply #'min list) (apply #'max list)))   ; successful completion
+          (t (find-value value (cons (car remaining-list) list) (cdr remaining-list))))))
+
+(defun day9/test2 ()
+  (find-value (day9/test1) nil (mapcar #'parse-integer (uiop:read-file-lines day9-test-input))))
 
 (defun day9/solution2 ()
   )

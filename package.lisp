@@ -37,5 +37,6 @@
 
            day9/test1
            day9/solution1
+           day9/test2
            day9/solution2))
 
