@@ -79,3 +79,5 @@
 (test day9-test
   (is (= (day9/test1) 127)))
 
+(test day9-solutions
+  (is (= (day9/solution1) 1038347917)))
