@@ -6,7 +6,7 @@
   :license "GNU3"  ;; Check proper license attribution
   :version "0.0.1"
   :serial t
-  :depends-on (#:cl-ppcre #:fiveam)
+  :depends-on (#:cl-ppcre #:fiveam #:memoize)
   :components ((:file "package")
                (:file "day1")
                (:file "day2")
@@ -16,7 +16,8 @@
                (:file "day6")
                (:file "day7")
                (:file "day8")
-               (:file "day9"))
+               (:file "day9")
+               (:file "day10"))
   :in-order-to ((test-op (test-op #:advent2020/test))))
 
 (defsystem #:advent2020/test

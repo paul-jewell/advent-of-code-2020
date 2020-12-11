@@ -2,7 +2,8 @@
 
 (defpackage #:advent2020
   (:use #:cl
-        #:cl-ppcre)
+        #:cl-ppcre
+        #:org.tfeb.hax.memoize)
   (:export day1/solution1
            day1/solution2
 
@@ -38,5 +39,12 @@
            day9/test1
            day9/solution1
            day9/test2
-           day9/solution2))
+           day9/solution2
+
+           day10/test1
+           day10/test2
+           day10/solution1
+           day10/test3
+           day10/test4
+           day10/solution2))
 

@@ -82,3 +82,15 @@
 
 (test day9-solutions
   (is (= (day9/solution1) 1038347917)))
+
+(test day10-test1
+  (is (= (day10/test1) 35))
+  (is (= (day10/test2) 220)))
+
+(test day10-test2
+  (is (= (day10/test3) 8))
+  (is (= (day10/test4) 19208)))
+
+(test day10-solution1
+  (is (= (day10/solution1) 1984))
+  (is (= (day10/solution2) 3543369523456)))

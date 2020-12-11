@@ -10,7 +10,7 @@
                   :when (/= x y)
                     :collect (+ x y))))
 
-(defun part1 (filename preamble)
+(defun day9/part1 (filename preamble)
   (let ((data (mapcar #'parse-integer (uiop:read-file-lines filename))))
     (loop :for i :from preamble
             :to (1- (length data))
@@ -18,10 +18,10 @@
             :collect (nth i data))))
 
 (defun day9/test1 ()
-  (car (part1 day9-test-input 5)))
+  (car (day9/part1 day9-test-input 5)))
 
 (defun day9/solution1 ()
-  (car (part1 day9-input 25)))
+  (car (day9/part1 day9-input 25)))
 
 (defun find-value (value live-list remaining-list)
   (let ((sum (apply #'+ live-list)))
