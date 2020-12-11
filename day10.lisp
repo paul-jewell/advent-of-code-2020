@@ -38,6 +38,7 @@
         :while (<= (- val start) 3)
         :sum (find-combinations (cons val rest))))
 
+(unmemoize-functions)
 (memoize-function 'find-combinations :test #'equal)
 
 (defun read-data (filename)
