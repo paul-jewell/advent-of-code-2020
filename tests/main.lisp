@@ -94,3 +94,7 @@
 (test day10-solution1
   (is (= (day10/solution1) 1984))
   (is (= (day10/solution2) 3543369523456)))
+
+(test day11-test1
+  (is (= (day11/test1) 37)))
+
