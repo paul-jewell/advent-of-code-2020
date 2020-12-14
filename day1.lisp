@@ -4,31 +4,25 @@
 (defparameter day1-input "~/Projects/advent-of-code-2020/input/day1-input.txt")
 (defparameter expenses (mapcar #'parse-integer (uiop:read-file-lines day1-input)))
 
-;; Refactor - first version - credit and thanks to samuel-hunter (on github)
+;; Refactor - second version - credit and thanks to bpanthi on lisp discord
 ;; My observations/learning from this:
 ;;  - Keywording the loop elements makes clearer
 ;;  - Loop keyword :on 
 ;;  - So much clearer than my first version!
 
 (defun day1/solution1 ()
-    (loop :for nums :on expenses
-          :for x := (first nums)
-          :do (loop :for y :in (rest nums)
-                    :when (= 2020 (+ x y))
-                      :do (return-from day1/solution1
-                            (values (* x y) x y)))))
+  (loop :for (a . tail) on expenses
+        :for b = (- 2020 a)
+        :when (find b tail)
+          return (* a b)))
 
 (defun day1/solution2 ()
-  (loop :for nums :on expenses
-        :for x := (first nums)
-        :do (loop :for nums2 :on (rest nums)
-                  :for y := (first nums2)
-                  :do (loop :for z :in (rest nums2)
-                            :when (= 2020 (+ x y z))
-                              :do (return-from day1/solution2
-                                    (values (* x y z) x y z))))))
-
-
+  (loop :for (a . tail) on expenses
+        :do (loop :for (b . b-tail) :on tail
+                  :for c := (- 2020 (+ a b))
+                  :when (find c b-tail)
+                    :do (return-from day1/solution2
+                          (* a b c)))))
 
 
 
