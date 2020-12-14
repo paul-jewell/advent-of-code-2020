@@ -98,3 +98,11 @@
 (test day11-test1
   (is (= (day11/test1) 37)))
 
+(test day11-solution1
+  (is (= (day11/solution1) 2247)))
+
+(test day11-test2
+  (is (= (day11/test2) 26)))
+
+(test day11-solution2
+  (is (= (day11/solution2) 2011)))
