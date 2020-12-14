@@ -51,16 +51,20 @@
 (defun L (boat val)
   (R boat (- val)))
 
+(defun manhattan-distance (boat)
+  (+ (abs (car (ship-position boat)))
+     (abs (cadr (ship-position boat)))))
+
 (defun day12/part1 (file)
   (let ((ferry (make-ship))
         (commands (mapcar #'parse-command (uiop:read-file-lines file))))
     (loop :for command in commands
           do (funcall (car command) ferry (cadr command)))
-    (+ (abs (car (ship-position ferry)))
-       (abs (cadr (ship-position ferry))))))
+    (manhattan-distance ferry)))
 
 (defun day12/test1 ()
   (day12/part1 day12-test-input))
 
 (defun day12/solution1 ()
   (day12/part1 day12-input))
+
