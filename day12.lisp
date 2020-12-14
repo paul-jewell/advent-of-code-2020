@@ -9,7 +9,7 @@
 
 (defstruct ship
   (course 'east)
-  (position '(0 0)))
+  (position (list 0 0)))
 
 (defun action-or-error (action-str)
   (let ((action (find action-str *actions* :test #'string-equal)))
@@ -25,7 +25,7 @@
     (north (setf (cadr (ship-position boat)) (+ (cadr (ship-position boat)) val)))
     (east (setf (car (ship-position boat)) (+ (car (ship-position boat)) val)))
     (south (setf (cadr (ship-position boat)) (- (cadr (ship-position boat)) val)))
-    (west (setf (car (ship-position boat)) (- (cadr (ship-position boat)) val)))))
+    (west (setf (car (ship-position boat)) (- (car (ship-position boat)) val)))))
 
 (defun F (boat val)
   (move boat val))
@@ -51,11 +51,16 @@
 (defun L (boat val)
   (R boat (- val)))
 
-(defun day12/test1 ()
+(defun day12/part1 (file)
   (let ((ferry (make-ship))
-        (commands (mapcar #'parse-command (uiop:read-file-lines day12-test-input))))
+        (commands (mapcar #'parse-command (uiop:read-file-lines file))))
     (loop :for command in commands
           do (funcall (car command) ferry (cadr command)))
     (+ (abs (car (ship-position ferry)))
        (abs (cadr (ship-position ferry))))))
 
+(defun day12/test1 ()
+  (day12/part1 day12-test-input))
+
+(defun day12/solution1 ()
+  (day12/part1 day12-input))
