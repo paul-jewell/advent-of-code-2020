@@ -107,8 +107,16 @@
 (test day11-solution2
   (is (= (day11/solution2) 2011)))
 
-(test day11-test1
+(test day12-test1
   (is (= (day12/test1) 25)))
 
-(test day11-solution1
+(test day12-solution1
   (is (= (day12/solution1) 759)))
+
+(test day12-test2
+  (is (= (day12/test2) 286)))
+
+(test day12-solution2
+  (is (= (day12/solution2) 45763)))
+
+
