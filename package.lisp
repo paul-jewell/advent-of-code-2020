@@ -56,5 +56,10 @@
            day12/test1
            day12/solution1
            day12/test2
-           day12/solution2))
+           day12/solution2
+
+           day13/test1
+           day13/solution1
+           day13/test2
+           day13/solution2))
 

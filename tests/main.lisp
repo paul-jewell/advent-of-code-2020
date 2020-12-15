@@ -119,4 +119,11 @@
 (test day12-solution2
   (is (= (day12/solution2) 45763)))
 
+(test day13-test1
+  (is (= (day13/test1) 295)))
 
+(test day13-solution1
+  (is (= (day13/solution1) 3464)))
+
+(test day13-test2
+  (is (= (day13/test2) 1068781)))
