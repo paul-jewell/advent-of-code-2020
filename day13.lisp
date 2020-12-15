@@ -16,8 +16,8 @@
   (if (null buses)
       result
       (if (or (null min) (< (reduce '* (car buses)) min))
-          (min-bus (cdr buses) (reduce '* (car buses)) (car buses))
-          (min-bus (cdr buses) min result))))
+          (earliest-bus (cdr buses) (reduce '* (car buses)) (car buses))
+          (earliest-bus (cdr buses) min result))))
 
 (defun day13/part1 (file)
   (let* ((input (parse-input file))
@@ -35,30 +35,21 @@
 
 
 (defun parse-input2 (file)
-  (remove-if #'null (loop :for v in (split #\, (second (uiop:read-file-lines file)))
-                          :for i from 0
-                          collect (list i (parse-integer v :junk-allowed t))) :key #'cadr))
+  (mapcar (lambda (s) (parse-integer s :junk-allowed t)) (split #\, (cadr (uiop:read-file-lines file)))))
 
-(defun timestamp-valid-p (timestamp bus)
-  (= (rem (+ timestamp (car bus)) (cadr bus)) 0))
+(defun get-timestamp (timestamp increment buses)
+  (cond ((null buses) timestamp) ;; No buses left to process
+        ((null (car buses)) (get-timestamp (+ timestamp 1) increment (cdr buses))) ;; no bus here
+        ((= 0 (rem timestamp (car buses))) ;; Current bus works for this timestamp
+         (get-timestamp (+ timestamp 1) (lcm increment (car buses)) (cdr buses))) ;; check remaining buses
+        (t (get-timestamp (+ timestamp increment) increment buses)))) ;; Check next timestamp
 
-(defun max-bus (buses &optional (max nil) (result nil)) ;; Find the bus with the largest interval
-  (if (null buses)
-      result
-      (if (or (null max) (> (cadar buses) max))
-          (max-bus (cdr buses) (cadar buses) (car buses))
-          (max-bus (cdr buses) max result))))
-
-(defun day13/part2 (input)
-  (let* ((buses (sort input #'> :key 'cadr))
-         (max-bus (max-bus buses)))
-    (loop :for timestamp :from (- (cadr max-bus) (car max-bus)) :by (cadr max-bus)
-          :when (every (lambda (bus) (= (rem (+ timestamp (car bus)) (cadr bus)) 0)) buses)
-            return timestamp)))
-
+(defun day13/part2 (file)
+  (let ((input (parse-input2 file)))
+    (- (get-timestamp (car input) 1 input) (length input))))
 
 (defun day13/test2 ()
-  (day13/part2 (parse-input2 day13-test-input)))
+  (day13/part2 day13-test-input))
 
 (defun day13/solution2 ()
-  (day13/part2 (parse-input2 day13-input)))
+  (day13/part2 day13-input))

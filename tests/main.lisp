@@ -127,3 +127,6 @@
 
 (test day13-test2
   (is (= (day13/test2) 1068781)))
+
+(test day13-solution2
+  (is (= (day13/solution2) 760171380521445)))

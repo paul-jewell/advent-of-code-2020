@@ -35,6 +35,8 @@ In particular:
     more with the code reading over the next days, based on what I was
     in 2018, so I have plenty of opportunities to work with this code
     going forward. In the meantime, thanks David!
+  - Day 13 - I had a function which worked, but was horrendously
+    inefficient. David's solution to part b is very elegant.
 - zulu.inoue and phoe on the Lisp Discord 
   - Showing me how to resolve errors related to my lack of
     understanding for packages and symbols. Thanks guys!
