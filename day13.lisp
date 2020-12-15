@@ -12,6 +12,12 @@
                                   (split #\, (cadr input))))))
     (list start-time buses)))
 
+;; This routine was written because I didn't know the function position existed!
+;; An alternative approach is to find the minimum bus in the list:
+;;   (let ((next-bus-time (mapcar (lambda (x) (- x (rem (car input) x))) (second (input)))))
+;; and then find the position (ie which bus has this minimum wait):
+;;   (position (apply 'min next-bus-time) next-bus-time)
+
 (defun earliest-bus (buses &optional (min nil) (result nil))
   (if (null buses)
       result
