@@ -3,13 +3,6 @@
 (defparameter day11-input "~/Projects/advent-of-code-2020/input/day11-input.txt")
 (defparameter day11-test-input "~/Projects/advent-of-code-2020/input/day11-test-input.txt")
 
-
-
-(defparameter test-seat-layout (uiop:read-file-lines day11-test-input))
-
-(defparameter test-seats (make-array (list (length seat-layout) (length (first seat-layout)))
-                                :initial-contents seat-layout))
-
 (defun parse-layout (filename)
   (let ((file-lines (uiop:read-file-lines filename)))
     (make-array (list (length file-lines) (length (first file-lines)))
