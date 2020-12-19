@@ -1,4 +1,4 @@
-(in-package :advent2020)
+(in-package :day13)
 
 (defparameter day13-test-input "~/Projects/advent-of-code-2020/input/day13-test-input.txt")
 (defparameter day13-input "~/Projects/advent-of-code-2020/input/day13-input.txt")
@@ -25,7 +25,7 @@
           (earliest-bus (cdr buses) (reduce '* (car buses)) (car buses))
           (earliest-bus (cdr buses) min result))))
 
-(defun day13/part1 (file)
+(defun part1 (file)
   (let* ((input (parse-input file))
          (bus-times (mapcar (lambda (x) (list x (ceiling (/ (car input) x))))
                             (cadr input)))
@@ -33,11 +33,11 @@
     (* (car my-bus) (- (reduce '* my-bus) ;; bus arrival time
                        (car input)))))    ;; my arrival time
 
-(defun day13/test1 ()
-  (day13/part1 day13-test-input))
+(defun test1 ()
+  (part1 day13-test-input))
 
-(defun day13/solution1 ()
-  (day13/part1 day13-input))
+(defun solution1 ()
+  (part1 day13-input))
 
 
 (defun parse-input2 (file)
@@ -50,12 +50,12 @@
          (get-timestamp (+ timestamp 1) (lcm increment (car buses)) (cdr buses))) ;; check remaining buses
         (t (get-timestamp (+ timestamp increment) increment buses)))) ;; Check next timestamp
 
-(defun day13/part2 (file)
+(defun part2 (file)
   (let ((input (parse-input2 file)))
     (- (get-timestamp (car input) 1 input) (length input))))
 
-(defun day13/test2 ()
-  (day13/part2 day13-test-input))
+(defun test2 ()
+  (part2 day13-test-input))
 
-(defun day13/solution2 ()
-  (day13/part2 day13-input))
+(defun solution2 ()
+  (part2 day13-input))

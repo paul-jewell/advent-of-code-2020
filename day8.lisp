@@ -1,4 +1,4 @@
-(in-package :advent2020)
+(in-package :day8)
 
 (defparameter day8-test-input "~/Projects/advent-of-code-2020/input/day8-test-input.txt")
 (defparameter day8-input "~/Projects/advent-of-code-2020/input/day8-input.txt")
@@ -48,11 +48,11 @@
 (defun jmp (name in)
   (setf (console-pc name) (+ (car in) (console-pc name))))
 
-(defun day8/test1 ()
+(defun test1 ()
   (let ((name 'prog))
     (run-console1 (create-console name (parse-program day8-test-input)) nil)))
 
-(defun day8/solution1 ()
+(defun solution1 ()
   (let ((name 'prog))
     (run-console1 (create-console name (parse-program day8-input)) nil)))
 
@@ -71,17 +71,17 @@
          (run-console2 name visitlist))
         (t nil)))
 
-(defun day8/part2 (program-file)
+(defun part2 (program-file)
   (let ((input (parse-program program-file))
         (name 'prog))
        (car (remove nil (loop :for program :in (nconc (replace-code input 'jmp 'nop)
                                                       (replace-code input 'nop 'jmp))
                               :collect (run-console2 (create-console name program) nil))))))
 
-(defun day8/test2 ()
-  (day8/part2 day8-test-input))
+(defun test2 ()
+  (part2 day8-test-input))
 
-(defun day8/solution2 ()
-  (day8/part2 day8-input))
+(defun solution2 ()
+  (part2 day8-input))
 
 

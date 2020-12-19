@@ -1,4 +1,4 @@
-(in-package #:advent2020)
+(in-package #:day1)
 
 ;; Read input into list
 (defparameter day1-input "~/Projects/advent-of-code-2020/input/day1-input.txt")
@@ -10,18 +10,18 @@
 ;;  - Loop keyword :on 
 ;;  - So much clearer than my first version!
 
-(defun day1/solution1 ()
+(defun solution1 ()
   (loop :for (a . tail) on expenses
         :for b = (- 2020 a)
         :when (find b tail)
           return (* a b)))
 
-(defun day1/solution2 ()
+(defun solution2 ()
   (loop :for (a . tail) on expenses
         :do (loop :for (b . b-tail) :on tail
                   :for c := (- 2020 (+ a b))
                   :when (find c b-tail)
-                    :do (return-from day1/solution2
+                    :do (return-from solution2
                           (* a b c)))))
 
 

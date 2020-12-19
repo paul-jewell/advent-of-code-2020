@@ -1,4 +1,4 @@
-(in-package :advent2020)
+(in-package :day12)
 
 (defparameter day12-input "~/Projects/advent-of-code-2020/input/day12-input.txt")
 (defparameter day12-test-input "~/Projects/advent-of-code-2020/input/day12-test-input.txt")
@@ -64,18 +64,18 @@
   (+ (abs (car (ship-position boat)))
      (abs (cadr (ship-position boat)))))
 
-(defun day12/part1 (file)
+(defun part1 (file)
   (let ((ferry (make-ship))
         (commands (mapcar #'parse-command (uiop:read-file-lines file))))
     (loop :for command in commands
           do (funcall (car command) ferry (cadr command)))
     (manhattan-distance ferry)))
 
-(defun day12/test1 ()
-  (day12/part1 day12-test-input))
+(defun test1 ()
+  (part1 day12-test-input))
 
-(defun day12/solution1 ()
-  (day12/part1 day12-input))
+(defun solution1 ()
+  (part1 day12-input))
 
 (defparameter *part2-actions* '((N . N2)
                                 (S . S2)
@@ -146,15 +146,15 @@
                         (ship-waypoint boat)))))
 
 
-(defun day12/part2 (file)
+(defun part2 (file)
   (let ((ferry (make-ship))
         (commands (mapcar #'parse-command2 (uiop:read-file-lines file))))
     (loop :for command in commands
           do (funcall (car command) ferry (cadr command)))
     (manhattan-distance ferry)))
 
-(defun day12/test2 ()
-  (day12/part2 day12-test-input))
+(defun test2 ()
+  (part2 day12-test-input))
 
-(defun day12/solution2 ()
-  (day12/part2 day12-input))
+(defun solution2 ()
+  (part2 day12-input))

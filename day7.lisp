@@ -1,4 +1,4 @@
-(in-package :advent2020)
+(in-package :day7)
 
 (defparameter day7-test-input "~/Projects/advent-of-code-2020/input/day7-test-input.txt")
 (defparameter day7-input "~/Projects/advent-of-code-2020/input/day7-input.txt")
@@ -37,7 +37,7 @@
          (dolist (child (mapcar #'car (gethash start graph))) 
            (path2 graph child end (cons child node-list)))))
 
-(defun day7/sol1 (file)
+(defun sol1 (file)
   (let ((graph (read-bag-rules file))
         (solutions 0))
     (loop :for colour being the hash-keys of graph
@@ -46,24 +46,24 @@
             :do (incf solutions)
           :finally (return solutions))))
 
-(defun day7/test1 ()
-  (day7/sol1 day7-test-input))
+(defun test1 ()
+  (sol1 day7-test-input))
 
-(defun day7/solution1 ()
-  (day7/sol1 day7-input))
+(defun solution1 ()
+  (sol1 day7-input))
 
 (defun total-bags (start bag-rules)
   (+ 1 (loop for (color . quantity) in (gethash start bag-rules)
              when (numberp quantity)
                sum (* quantity (total-bags color bag-rules)))))
 
-(defun day7/sol2 (rule-file)
+(defun sol2 (rule-file)
   (- (total-bags "shiny gold" (read-bag-rules rule-file)) 1))
 
-(defun day7/test2 ()
-  (day7/sol2 day7-test-input))
+(defun test2 ()
+  (sol2 day7-test-input))
 
-(defun day7/solution2 ()
-  (day7/sol2 day7-input))
+(defun solution2 ()
+  (sol2 day7-input))
 
 

@@ -1,4 +1,4 @@
-(in-package :advent2020)
+(in-package :day9)
 
 (defparameter day9-test-input "~/Projects/advent-of-code-2020/input/day9-test-input.txt")
 (defparameter day9-input "~/Projects/advent-of-code-2020/input/day9-input.txt")
@@ -10,18 +10,18 @@
                   :when (/= x y)
                     :collect (+ x y))))
 
-(defun day9/part1 (filename preamble)
+(defun part1 (filename preamble)
   (let ((data (mapcar #'parse-integer (uiop:read-file-lines filename))))
     (loop :for i :from preamble
             :to (1- (length data))
           :when (null (find (nth i data) (sums-in-preamble (subseq data (- i preamble) i))))
             :collect (nth i data))))
 
-(defun day9/test1 ()
-  (car (day9/part1 day9-test-input 5)))
+(defun test1 ()
+  (car (part1 day9-test-input 5)))
 
-(defun day9/solution1 ()
-  (car (day9/part1 day9-input 25)))
+(defun solution1 ()
+  (car (part1 day9-input 25)))
 
 (defun find-value (value live-list remaining-list)
   (let ((sum (apply #'+ live-list)))
@@ -30,8 +30,8 @@
           ((= sum value) (+ (apply #'min live-list) (apply #'max live-list)))   ; successful completion
           (t (find-value value (cons (car remaining-list) live-list) (cdr remaining-list))))))
 
-(defun day9/test2 ()
-  (find-value (day9/test1) nil (mapcar #'parse-integer (uiop:read-file-lines day9-test-input))))
+(defun test2 ()
+  (find-value (test1) nil (mapcar #'parse-integer (uiop:read-file-lines day9-test-input))))
 
-(defun day9/solution2 ()
-  (find-value (day9/solution1) nil (mapcar #'parse-integer (uiop:read-file-lines day9-input))))
+(defun solution2 ()
+  (find-value (solution1) nil (mapcar #'parse-integer (uiop:read-file-lines day9-input))))

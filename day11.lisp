@@ -1,4 +1,4 @@
-(in-package :advent2020)
+(in-package :day11)
 
 (defparameter day11-input "~/Projects/advent-of-code-2020/input/day11-input.txt")
 (defparameter day11-test-input "~/Projects/advent-of-code-2020/input/day11-test-input.txt")
@@ -100,29 +100,29 @@
                               append (loop :for y :below (second (array-dimensions seats))
                                            collect (occupied-p seats x y)))))
 
-(defun day11/part1 (seat-layout)
+(defun part1 (seat-layout)
   (multiple-value-bind (seats changed-p)
       (seat-change1 seat-layout)
     (if changed-p
-        (day11/part1 seats)
+        (part1 seats)
         (count-all-seats seats))))
 
 
-(defun day11/test1 ()
-  (day11/part1 (parse-layout day11-test-input)))
+(defun test1 ()
+  (part1 (parse-layout day11-test-input)))
 
-(defun day11/solution1 ()
-  (day11/part1 (parse-layout day11-input)))
+(defun solution1 ()
+  (part1 (parse-layout day11-input)))
 
-(defun day11/part2 (seat-layout)
+(defun part2 (seat-layout)
   (multiple-value-bind (seats changed-p)
       (seat-change2 seat-layout)
     (if changed-p
-        (day11/part2 seats)
+        (part2 seats)
         (count-all-seats seats))))
 
-(defun day11/test2 ()
-  (day11/part2 (parse-layout day11-test-input)))
+(defun test2 ()
+  (part2 (parse-layout day11-test-input)))
 
-(defun day11/solution2 ()
-  (day11/part2 (parse-layout day11-input)))
+(defun solution2 ()
+  (part2 (parse-layout day11-input)))

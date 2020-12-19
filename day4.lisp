@@ -1,4 +1,4 @@
-(in-package :advent2020)
+(in-package :day4)
 
 (defparameter day4-test-input-1 "~/Projects/advent-of-code-2020/input/day4-test-input.txt")
 ;; Test input 2 containts 4 valid and 4 invalid passports according to part 2 criteria
@@ -54,14 +54,14 @@
          (validate-eye-colour-p (gethash "ecl" passport))
          (validate-passport-id-p (gethash "pid" passport)))))
 
-(defun day4/test1 ()
+(defun test1 ()
   (count-if #'passport-valid-1-p (read-passports day4-test-input-1)))
 
-(defun day4/solution1 ()
+(defun solution1 ()
   (count-if #'passport-valid-1-p (read-passports day4-input)))
 
-(defun day4/test2 ()
+(defun test2 ()
   (count-if #'passport-valid-2-p (read-passports day4-test-input-2)))
 
-(defun day4/solution2 ()
+(defun solution2 ()
   (count-if #'passport-valid-2-p (read-passports day4-input)))

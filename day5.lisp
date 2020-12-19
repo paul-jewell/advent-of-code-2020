@@ -1,4 +1,4 @@
-(in-package :advent2020)
+(in-package :day5)
 
 (defparameter day5-input "~/Projects/advent-of-code-2020/input/day5-input.txt")
 (defparameter boarding-passes (uiop:read-file-lines day5-input))
@@ -16,13 +16,13 @@
           :for c in (mapcar #'(lambda (c) (cadr (assoc c vals))) (reverse (coerce boarding-pass 'list)))
           :sum (* (expt 2 i) c))))
 
-(defun day5/test1 ()
+(defun test1 ()
   (apply #'max (mapcar #'seat-id test-boarding-passes)))
 
-(defun day5/solution1 ()
+(defun solution1 ()
   (apply #'max (mapcar #'seat-id boarding-passes)))
 
-(defun day5/solution2 ()
+(defun solution2 ()
   (let* ((passes (sort (mapcar #'seat-id boarding-passes) #'<))
         (min-seat-id (apply #'min passes))
         (max-seat-id (apply #'max passes)))

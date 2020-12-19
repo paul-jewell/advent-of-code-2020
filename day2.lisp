@@ -1,4 +1,4 @@
-(in-package #:advent2020)
+(in-package #:day2)
 
 (defparameter day2-input "~/Projects/advent-of-code-2020/input/day2-input.txt")
 
@@ -30,7 +30,7 @@
         T
         nil)))
 
-(defun day2/solution1 ()
+(defun solution1 ()
   (count-if #'a-valid-password-p passwords))
 
 (defun xor (x y)
@@ -49,5 +49,5 @@
          T
          nil))) 
 
-(defun day2/solution2 ()
+(defun solution2 ()
   (count-if #'b-valid-password-p passwords))

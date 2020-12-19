@@ -1,4 +1,4 @@
-(in-package :advent2020)
+(in-package :day10)
 
 (defparameter day10-test-input1 "~/Projects/advent-of-code-2020/input/day10-test-input-1.txt")
 (defparameter day10-test-input2 "~/Projects/advent-of-code-2020/input/day10-test-input-2.txt")
@@ -20,14 +20,14 @@
                   (setf three-jolt (1+ three-jolt))))
     (* one-jolt three-jolt)))
 
-(defun day10/test1 ()
+(defun test1 ()
   (part1 day10-test-input1))
 
-(defun day10/test2 ()
+(defun test2 ()
   (part1 day10-test-input2)) ;; process day10-test-input-2
 
 
-(defun day10/solution1 ()
+(defun solution1 ()
   (part1 day10-input))
 
 (defun find-combinations (remaining-adaptors)
@@ -44,14 +44,14 @@
 (defun read-data (filename)
   (cons 0 (sort (mapcar #'parse-integer (uiop:read-file-lines filename)) #'<)))
 
-(defun day10/test3 ()
+(defun test3 ()
   (find-combinations (read-data day10-test-input1)))
 
-(defun day10/test4 ()
+(defun test4 ()
   (find-combinations (read-data day10-test-input2)))
 
 
-(defun day10/solution2 ()
+(defun solution2 ()
   (find-combinations (read-data day10-input)))
 
 
