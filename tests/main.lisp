@@ -150,5 +150,14 @@
 (test day14-solution1
   (is (= (day14:solution1) 5875750429995)))
 
-(test day14/test2
+(test day14-test2
   (is (= (day14:test2) 208)))
+
+(test day14-solution2
+  (is (= (day14:solution2) 5272149590143)))
+
+(test day15-test1
+  (is (= (day15:test1) 436)))
+
+(test day15-solution1
+  (is (= (day15:solution1) 1696)))
