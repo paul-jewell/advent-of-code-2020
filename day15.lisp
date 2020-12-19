@@ -3,41 +3,33 @@
 (defparameter input '(12 1 16 3 11 0))
 (defparameter test-input '(0 3 6))
 
-(defun save-turn (numbers value turn)
-  (setf (gethash value numbers) (cons turn (gethash value numbers))))
+(defvar memory)
 
-(defun next-turn (numbers last-number)
-  (let ((turns (gethash last-number numbers)))
-    (if (< (length turns) 2)
-        0
-        (- (first turns)
-           (second turns)))))
+(defun load-initial-data (data)
+  (loop :for turn :from 1
+        :for value :in data
+        :do (setf (gethash value memory) turn)))
 
-(defun compute-number (v end)
-  (let ((numbers (make-hash-table))
-        (last-number 0))
-    ;; Load hash with start numbers
-    (loop :for n :in v
-          :for turn :from 1 to (length v)
-          :do (setf (gethash n numbers) (cons turn (gethash n numbers))))
-    (setq last-number (car (last v)))
-    ;; Calculate following numbers
-    (loop :for turn :from (1+ (length v)) :to end
-          :do (progn
-                (setq last-number (next-turn numbers last-number))
-                (save-turn numbers last-number turn))
-          :finally
-             (return last-number))))
+(defun compute-next-number (num turn end)
+  (cond ((= turn end) num)
+        ((null (gethash num memory)) (setf (gethash num memory) turn)(compute-next-number 0 (1+ turn) end))
+        (t (let ((next (- turn (gethash num memory))))
+             (setf (gethash num memory) turn) (compute-next-number next (1+ turn) end)))))
+
+(defun solution (input end)
+  (setq memory (make-hash-table))
+  (load-initial-data input)
+  (compute-next-number 0 (1+ (hash-table-count memory)) end))
 
 (defun test1 ()
-  (compute-number test-input 2020))
+  (solution test-input 2020))
 
 (defun solution1 ()
-  (compute-number input 2020))
+  (solution input 2020))
+
 
 (defun test2 ()
-  (compute-number test-input 30000000))
+  (solution test-input 30000000))
 
 (defun solution2 ()
-  (compute-number input 30000000))
-
+  (solution input 30000000))
