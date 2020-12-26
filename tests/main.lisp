@@ -20,6 +20,8 @@
         #:day12
         #:day13
         #:day14
+        #:day15
+        #:day16
         #:fiveam)
   (:export #:run!
            #:all-tests))
@@ -167,3 +169,9 @@
 
 (test day15-solution2
   (is (= (day15:solution2) 37385)))
+
+(test day16-test1
+  (is (= (day16:test1) 71)))
+
+(test day16-solution1
+  (is (= (day16:solution1) 22073)))
