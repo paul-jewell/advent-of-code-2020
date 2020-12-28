@@ -2,7 +2,7 @@
 
 (defparameter input "~/Projects/advent-of-code-2020/input/day16-input.txt")
 (defparameter test-input "~/Projects/advent-of-code-2020/input/day16-test-input.txt")
-
+(defparameter test-input-2 "~/Projects/advent-of-code-2020/input/day16-test-input-2.txt")
 
 
 (defun parse-rule (rule-str)
@@ -20,20 +20,28 @@
                                (cdr (split "\\n" (third data))))))
     (list rules my-ticket near-tickets)))
 
-(defun valid-range-p (value &rest ranges)
+;; Check if value is in the supplied ranges
+(defun value-in-range-p (value &rest ranges)
   (some (lambda (range) (<= (car range) value (cadr range))) ranges))
 
-(defun check-ticket (ranges ticket)
-  (remove-if (lambda (n) (notevery 'null (mapcar (lambda (r) (apply #'valid-range-p n r)) ranges))) ticket))
+;; Remove all ticket values which are valid
+(defun remove-valid-values (ranges ticket)
+  (remove-if (lambda (ticket-val)
+               (notevery 'null
+                         (mapcar (lambda (range)
+                                   (apply #'value-in-range-p ticket-val range))
+                                 ranges)))
+             ticket))
 
-(defun check-tickets (ranges tickets)
-  (apply #'nconc (mapcar (lambda (ticket) (check-ticket ranges ticket)) tickets)))
+;; Find all the invalid values in the tickets
+(defun invalid-values (ranges tickets)
+  (apply #'nconc (mapcar (lambda (ticket) (remove-valid-values ranges ticket)) tickets)))
 
 (defun part1 (file)
   (let* ((data (parse-input file))
          (ranges (first data))
          (tickets (third data)))
-    (apply #'+ (check-tickets ranges tickets))))
+    (apply #'+ (invalid-values ranges tickets))))
 
 (defun test1 ()
   (part1 test-input))
@@ -41,36 +49,60 @@
 (defun solution1 ()
   (part1 input))
 
-
-(defun valid-ticket-p (ticket ranges)
-  (notevery #'null (mapcar (lambda (n)
-                             (every #'null (mapcar (lambda (r) (apply #'valid-range-p n r)) ranges)))
+(defun check-ticket-p (ranges ticket)
+  (notevery #'null (mapcar (lambda (ticket-val)
+                             (every 'null
+                                    (mapcar (lambda (r) (apply #'value-in-range-p ticket-val r))
+                                            ranges)))
                            ticket)))
+
+(defun r-intersection (current others)
+  (if (null others)
+      current
+      (r-intersection (intersection current (car others)) (cdr others))))
+
+(defun check-tickets (ranges tickets)
+  (remove-if (lambda (ticket) (check-ticket-p ranges ticket)) tickets))
+
+(defun check-range (range tickets)
+  (loop :for ticket :in tickets
+        :collect (loop :for i :upto (1- (length ticket))
+                       :if (apply 'value-in-range-p (nth i ticket) range)
+                         :collect i)))
+
+(defun check-ranges (ranges tickets)
+  (loop :for r :in ranges
+        :for res := (check-range r tickets)
+        :collect (r-intersection (car res) (cdr res))))
+
+(defun match-range (iterations result)
+  (if (= 0 iterations)
+      result
+      (match-range (1- iterations)
+                   (loop :for i upto (1- (length result))
+                         :for r := (nth i result)
+                         :if (and (listp r) (= 1 (length r)))
+                           :nconc (nconc (mapcar (lambda (s)
+                                                   (if (listp s)
+                                                       (remove (car r) s)
+                                                       s))
+                                                 (subseq result 0 i))
+                                         r
+                                         (mapcar (lambda (s)
+                                                   (if (listp s)
+                                                       (remove (car r) s)
+                                                       s))
+                                                 (subseq result (1+ i))))))))
 
 (defun part2 (file)
   (let* ((data (parse-input file))
          (rules (first data))
          (my-ticket (second data))
          (tickets (third data))
-         (ranges (loop :for rule in rules
-                       :collect (parse-rule rule)))
-         (ticket-vals
-           (mapcar (lambda (ticket-val) (mapcar #'parse-integer ticket-val))
-                   (mapcar (lambda (ticket) (split #\, ticket))
-                           tickets)))
-         (valid-tickets ()))
-    ranges))
+         (ranges (check-ranges rules (check-tickets rules tickets))))
+    (apply '* (subseq (loop :for n :in (match-range (length ranges) ranges)
+                            :collect (nth n my-ticket))
+                      0 6))))
 
-
-(defun db-parse-input (l)
-  (let ((types (split (format nil "~%~%") l)))
-    (list (loop :for c :in (split (format nil "~%") (CAR types))
-                :collect
-                (loop :for n :in (split " " c)
-                      :for r := (split "-" n)
-                      :if (= 2 (length r))
-                        :collect (cons (parse-integer (CAR r))
-                                       (parse-integer (CADR r)))))
-
-          (mapcar 'parse-integer (split "," (CADR (split (format nil "~%") (CADR types)))))
-          (mapcar (lambda (o) (mapcar 'parse-integer (split "," o))) (CDR (split (format nil "~%") (CADDR types)))))))
+(defun solution2 ()
+  (part2 input))
