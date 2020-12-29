@@ -163,3 +163,14 @@
 (test day16-solution2
   (is (= (day16:solution2) 1346570764607)))
 
+(test day17-test1
+  (is (= (day17:test1) 112)))
+
+(test day17-solution1
+  (is (= (day17:solution1) 401)))
+
+(test day17-test2
+  (is (= (day17:test2) 848)))
+
+(test day17-solution2
+  (is (= (day17:solution2) 2224)))
