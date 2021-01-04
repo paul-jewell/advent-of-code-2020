@@ -129,3 +129,10 @@
            solution1
            test2
            solution2))
+
+(defpackage #:day18
+  (:use #:cl)
+  (:export test1
+           solution1
+           test2
+           solution2))
