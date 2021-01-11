@@ -131,8 +131,11 @@
            solution2))
 
 (defpackage #:day18
-  (:use #:cl)
+  (:use #:cl
+        #:cl-ppcre)
   (:export test1
-           solution1
            test2
+           test3
+           test4
+           solution1
            solution2))

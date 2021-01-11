@@ -176,9 +176,13 @@
   (is (= (day17:solution2) 2224)))
 
 (test day18-test1
-  (is (= (day18:test1 "2 * 3 + (4 * 5)") 26))
-  (is (= (day18:test1 "5 + (8 * 3 + 9 + 3 * 4 * 3)") 437))
-  (is (= (day18:test1 "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))") 12240))
-  (is (= (day18:test1 "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2") 13632)))
+  (is (= (day18:test1) 26))
+  (is (= (day18:test2) 437))
+  (is (= (day18:test3) 12240))
+  (is (= (day18:test4) 13632)))
 
+(test day18-solution1
+  (is (= (day18:solution1) 3647606140187)))
 
+(test day18-solution2
+  (is (= (day18:solution2) 323802071857594)))

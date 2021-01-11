@@ -37,6 +37,9 @@ In particular:
     going forward. In the meantime, thanks David!
   - Day 13 - I had a function which worked, but was horrendously
     inefficient. David's solution to part b is very elegant.
+  - Day 18 - Without David's solution, I would not have completed part
+    1 or 2. David has implemented a very elegant solution (to my eyes
+    anyway).
 - zulu.inoue and phoe on the Lisp Discord 
   - Showing me how to resolve errors related to my lack of
     understanding for packages and symbols. Thanks guys!
