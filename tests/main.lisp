@@ -186,3 +186,7 @@
 
 (test day18-solution2
   (is (= (day18:solution2) 323802071857594)))
+
+(test day19-test1
+  (is (= (day19:test1) 2)))
+
