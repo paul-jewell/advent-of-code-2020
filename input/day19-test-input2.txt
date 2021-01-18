@@ -1,0 +1,17 @@
+0: 5 1 6
+1: 2 3 | 3 5
+2: 3 5 | 6 6
+3: 5 6 | 6 5
+4: 5 5 | 6 6
+5: "a"
+6: "b"
+
+aabab
+a ab a ab b
+ababbb
+bababa
+abbbab
+aaabbb
+aaaabbb
+ababb
+ababbba

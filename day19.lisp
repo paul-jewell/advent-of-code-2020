@@ -1,6 +1,7 @@
 (in-package :day19)
 
 (defparameter day19-test-input "~/Projects/advent-of-code-2020/input/day19-test-input.txt")
+(defparameter day19-test-input2 "~/Projects/advent-of-code-2020/input/day19-test-input2.txt")
 (defparameter day19-input "~/Projects/advent-of-code-2020/input/day19-input.txt")
 
 ;; These three functions need to be refactored / clarified
@@ -28,38 +29,43 @@
   "Check MESSAGE is valid against RULE-SEQ.
    Input to this function should be a list of rules to be checked in 
    sequence. eg - '(1 2 3)"
-  (if (null rule-seq) ; RULE-SEQ can be nil if the rule set didn't have two branches
-        message       ;...so return the message.
-        (let ((result (check-rule message rules-arr (car rule-seq)))) ; check the first rule
-          (cond                                                       ; in the sequence
-            ((equal result 'invalid)   ; message doesn't comply with rule
-             'invalid)                 ;...so return 'invalid
-            (t (check-rule-seq result rules-arr (cdr rule-seq)))))))  ; Check the rest of the
-                                                                      ; sequence recursively
-(defun check-rule (message rules-arr rule)
-  "Check MESSAGE against RULE-NUM.
-   Input to this function should only be a single rule number."
-  (let ((rules (aref rules-arr rule))) ; Decompose rule 
-    (cond
-      ((null message) 'invalid) ; No more message left
-      ((characterp rules)       ; Rule is letter
-       (if (char= rules (car message))
-             (cdr message)      ;...if matches - consume matched and return rest
-             'invalid))         ;...or 'invalid if not.
-      (t (let ((result (check-rule-seq message rules-arr (first rules))))
-           (cond
-             ((equal result 'invalid) ;...first leg invalid, so check second leg
-              (check-rule-seq message rules-arr (second rules)))
-             (t result)))))))   ;...first leg is valid, no need to check second leg
+  (cond
+    ((equal message 'invalid)
+     (list message))
+    ((null rule-seq)
+     (list message)) ;If no rule sequence to check, return the message.
+    ((null message)
+     (list message))
+    (t (let ((result-lst (check-rule (list message) rules-arr (car rule-seq))))
+         (loop :for msg in result-lst
+               :append (check-rule-seq msg rules-arr (cdr rule-seq)))))))
+    
+(defun check-rule (message-lst rules-arr rule)
+  "Check each message in MESSAGE-LST against RULE, defined in RULE-ARR.
+   Return the list of results."
+  (let ((rules (aref rules-arr rule))) ;; Decompose the rule into constituent parts
+       (loop :for message in message-lst
+             :with result-lst
+             :do (cond
+                   ((equal 'invalid message) (push 'invalid result-lst))
+                   ((null message) (push 'invalid result-lst)) ; No more message, but rules still exist to satisfy
+                   ((characterp rules)   ; This rule is a letter
+                    (push (if (equal rules (car message))
+                              (cdr message)
+                              'invalid)
+                          result-lst))
+                   (t (loop :for rule-seq in rules
+                            :do (setq result-lst (append (check-rule-seq message rules-arr rule-seq) result-lst)))))
+             :finally (return result-lst))))
 
 (defun check (rules message)
-  (null (check-rule message rules 0)))
+  (some #'null (check-rule (list message) rules 0)))
 
 (defun part1 (file)
   (let* ((stream (open file))
          (rules-lst  (read-rules stream))
          (rules
-           (loop :with array := (make-array (1+ (reduce #'max (mapcar #'car rules-lst))))
+           (loop :with array := (make-array (length rules-lst))
                  :for r :in rules-lst
                  :do (setf (aref array (car r)) (cdr r))
                  :finally (return array)))
@@ -67,7 +73,6 @@
            (loop :for str := (read-line stream nil)
                  :while str
                  :collect (coerce str 'list))))
-    ;(mapcar (lambda (m) (check rules m)) messages)
     (count 't (mapcar (lambda (m) (check rules m)) messages))))
 
 (defun test1 ()
@@ -75,3 +80,22 @@
 
 (defun solution1 ()
   (part1 day19-input))
+
+(defun part2 (file)
+  (let* ((stream (open file))
+         (rules-lst  (read-rules stream))
+         (rules
+           (loop :with array := (make-array (length rules-lst))
+                 :for r :in rules-lst
+                 :do (setf (aref array (car r)) (cdr r))
+                 :finally (return array)))
+         (messages
+           (loop :for str := (read-line stream nil)
+                 :while str
+                 :collect (coerce str 'list))))
+    ;; Modify rules 8 and 11 as described:
+    (setf (aref rules 8) '((42) (42 8)))
+    (setf (aref rules 11) '((42 31) (42 11 31)))
+    (count 't (mapcar (lambda (m) (check rules m)) messages))))
+
+

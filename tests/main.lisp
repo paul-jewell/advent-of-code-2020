@@ -190,3 +190,6 @@
 (test day19-test1
   (is (= (day19:test1) 2)))
 
+(test day19-solution1
+  (is (= (day19:solution1) 151)))
+
