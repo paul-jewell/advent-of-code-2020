@@ -30,12 +30,9 @@
    Input to this function should be a list of rules to be checked in 
    sequence. eg - '(1 2 3)"
   (cond
-    ((equal message 'invalid)
-     (list message))
-    ((null rule-seq)
-     (list message)) ;If no rule sequence to check, return the message.
-    ((null message)
-     (list message))
+    ((equal message 'invalid) (list message))
+    ((null rule-seq) (list message)) ;If no rule sequence to check, return the message.
+    ((null message) (list message))
     (t (let ((result-lst (check-rule (list message) rules-arr (car rule-seq))))
          (loop :for msg in result-lst
                :append (check-rule-seq msg rules-arr (cdr rule-seq)))))))
@@ -61,18 +58,24 @@
 (defun check (rules message)
   (some #'null (check-rule (list message) rules 0)))
 
-(defun part1 (file)
+(defun parse-input (file)
   (let* ((stream (open file))
-         (rules-lst  (read-rules stream))
+         (rules-lst (read-rules stream))
          (rules
-           (loop :with array := (make-array (length rules-lst))
-                 :for r :in rules-lst
+           (loop :with array := (make-array (1+ (reduce #'max rules-lst :key #'car)))
+                 :for r in rules-lst
                  :do (setf (aref array (car r)) (cdr r))
                  :finally (return array)))
          (messages
            (loop :for str := (read-line stream nil)
                  :while str
                  :collect (coerce str 'list))))
+    (list rules messages)))
+
+(defun part1 (file)
+  (let* ((input (parse-input file))
+         (rules (first input))
+         (messages (second input)))
     (count 't (mapcar (lambda (m) (check rules m)) messages))))
 
 (defun test1 ()
@@ -81,21 +84,28 @@
 (defun solution1 ()
   (part1 day19-input))
 
+;;======================================================================
+;; Part 2
+;;----------------------------------------------------------------------
+
 (defun part2 (file)
-  (let* ((stream (open file))
-         (rules-lst  (read-rules stream))
-         (rules
-           (loop :with array := (make-array (length rules-lst))
-                 :for r :in rules-lst
-                 :do (setf (aref array (car r)) (cdr r))
-                 :finally (return array)))
-         (messages
-           (loop :for str := (read-line stream nil)
-                 :while str
-                 :collect (coerce str 'list))))
+  (let* ((input (parse-input file))
+         (rules (first input))
+         (messages (second input)))
     ;; Modify rules 8 and 11 as described:
     (setf (aref rules 8) '((42) (42 8)))
     (setf (aref rules 11) '((42 31) (42 11 31)))
     (count 't (mapcar (lambda (m) (check rules m)) messages))))
 
+(defun test2 ()
+  (part2 day19-test-input2))
 
+(defun solution2 ()
+  (part2 day19-input))
+
+;; Use this instead of check to see the valid messages
+(defun check2 (rules message)
+  (let ((result (some #'null (check-rule (list message) rules 0))))
+    (when result
+      (format t "Valid Message: ~A~%" message))
+    result))
