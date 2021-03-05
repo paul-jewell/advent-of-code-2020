@@ -193,3 +193,8 @@
 (test day19-solution1
   (is (= (day19:solution1) 151)))
 
+(test day19-test2
+  (is (= (day19:test2) 12)))
+
+(test day19-solution2
+  (is (= (day19:solution2) 386)))

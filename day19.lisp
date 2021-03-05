@@ -102,25 +102,3 @@
 
 (defun solution2 ()
   (part2 day19-input))
-
-;; Use this instead of check to see the valid messages
-(defun check2 (rules message)
-  (let ((result (some #'null (check-rule (list message) rules 0)))
-        (rtn-val (check-rule (list message) rules 0)))
-    (when result
-          (format t "~%result: ~A~%" rtn-val)
-          (format t "Valid Message: ~A~%~%" message))
-    result))
-
-;;Invalid message with test data set:
-;; (a a a a b b a a a a b b a a a)
-;; Should be 12 valid messages, but this one should be invalid. It currently validates.
-
-(defun part2t (file)
-  (let* ((input (parse-input file))
-         (rules (first input))
-         (messages (second input)))
-;;    '((a a a a b b a a a a b b a a a))
-    (setf (aref rules 8) '((42) (42 8)))
-    (setf (aref rules 11) '((42 31) (42 11 31)))
-    (mapcar (lambda (m) (check2 rules m)) messages)))
