@@ -6,11 +6,6 @@
 ;; Parse tiles from input string
 ;; - First line: Tile nnnn:
 
-
-
-(defun test1 ()
-  (parse-input day20-test-input))
-
 (defun parse-input (file)
   (let* ((tile-strs (split "\\n\\n" (uiop:read-file-string file))))
     (mapcar #'tile-boundaries (mapcar (lambda (tile-str)
@@ -19,6 +14,9 @@
                                                (tile-image (cdr tile-data)))
                                           (list tile-number tile-image))) 
                                       tile-strs))))
+
+(defun test1 ()
+  (parse-input day20-test-input))
 
 (defun numerate-string (str)
   (parse-integer
@@ -78,28 +76,39 @@
 ;;   return 0
 ;;
 
-(defun tile-fit (picture next-pos tile))
+(defun tile-fit-p (picture next-pos tile)
+  ; Confirm if tile fits in the next-pos in picture
+  )
 
-(defun add-to-picture (picture next-pos tile))
+(defun add-to-picture (picture next-pos tile)
+  ; Add tile to the existing picture in next-pos
+  )
 
-(defun calculate-result (picture))
+(defun calculate-result (picture)
+  ; Calculate the result for the finished picture
+  )
 
 ;; Return the tile id
 (defun tile-id (tile)
   (car tile))
 
-(defun build-picture picture tiles next-pos
+(defun build-picture (picture tiles position)
   (if ((length tiles) 0)
       (calculate-result picture)
       (loop :for tile :in tiles
             :do (loop :for rot-tile in (tile-rotations tile)
-                      :do (if (tile-fit picture next-pos rot-tile)
-                              (let ((result (build-picture (add-to-picture picture next-pos rot-tile))))
-                                (if (not (equal result 0))
-                                    )
-                               0
-                                  0
-                                  )))
+                      :do 
+                         (if (tile-fit picture position rot-tile)
+                             (let ((result
+                                     (build-picture
+                                      (add-to-picture picture
+                                                      position
+                                                      rot-tile)
+                                      (cdr tiles)
+                                      (increment next-pos))))
+                               (if (not (equal result 0))
+                                   result)
+                               0))))))
                 
                 ;; for each tile-rotation
                 ;; Check to see if the tile fits the picture at the next-possible
@@ -108,9 +117,11 @@
                 ;;     Remove the tile from the list of tiles
                 ;;     call build-picture with the new picture, tiles and new next-possible
                 ;;
-            )
-      ))
-
+            
+      
+(defun increment-position (position)
+  ; return the next position requiring a tile
+  )
 
 (defun edge-rotate (edge)
   (parse-integer (reverse
