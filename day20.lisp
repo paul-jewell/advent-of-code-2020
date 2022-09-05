@@ -43,85 +43,116 @@
                             (subseq line 0 1))))))
     (list (car tile) (list north east south west))))
 
-;;------------------------------------------------------------------------------
-;; Puzzle input:
-;;  144 tiles, making a picture 12x12. Each tile has 10x10 array.
-;;------------------------------------------------------------------------------
+(defun north (tile)
+  (first (cadr tile)))
 
-;(defun tile-array )
+(defun east (tile)
+  (second (cadr tile)))
 
-;; Rotation changes the value of the number, unless all numbers are read from the same end.
-;; Need to change tile-boundaries to consider this point. Otherwise simple comparison
-;; of the numbers is not possible.
+(defun south (tile)
+  (third (cadr tile)))
 
-;; (defun build-picture (picture tiles next-pos)
-;;   (if (match-picture tiles next-pos)
-;;       ))
+(defun west (tile)
+  (fourth (cadr tile)))
 
+(defun tile-side (cardinal picture position)
+  (funcall cardinal (aref picture (array-pos-col position picture) (array-pos-row position picture))))
 
-;; Parameters to our recursive routine
-;; - picture - current assembled picture. Initially empty. This is a list of lists for each row
-;; - tiles - tiles not yet allocated into the picture
-;;
-;; Steps
-;; - Is the tile list empty? If so, then calculate and return the result - picture is complete
-;; - for each tile in tile list
-;;     check for a match in each of the orientations
-;;       - If found
-;;         Add the tile to the picture (in the appropriate orientation)
-;;         Recursively call the routine, with the new picture and tile list
-;;         if the result is non-zero (ie - the solution was found)
-;;            return the result
-;;
-;;   return 0
-;;
-
-(defun tile-fit-p (picture next-pos tile)
-  ; Confirm if tile fits in the next-pos in picture
-  )
+(defun tile-fit-pred (picture next-pos tile)
+  (format T "picture: ~A, next-pos: ~A, tile: ~A~%" picture next-pos tile)
+  (let ((position (array-pos next-pos picture)))
+    (if (= (car position) 0) ;; First column
+        (if  (= (cadr position) 0) ;; First cell - top left - automatically fit!
+             T
+             (if (= (north tile)
+                    (tile-side #'south picture (1-  next-pos)))
+                 T     ;; Tile fits
+                 nil))
+        (if (= (cadr position) 0) ;; Check only east/west match
+            (if (= (west tile)
+                   (tile-side #'east picture
+                              (let ((pos  (- next-pos (car (array-dimensions picture)))))
+                                (if  (>= pos 0)
+                                     pos
+                                     0))))
+                T
+                nil)
+            (if (and (= (west tile)
+                        (tile-side #'east picture
+                                   (let ((pos (- next-pos (car (array-dimensions picture)))))
+                                     (if (>= pos 0)
+                                         pos
+                                         0))))
+                     (= (north tile)
+                        (tile-side #'south picture (1- next-pos))))
+                T
+                nil)))))
 
 (defun add-to-picture (picture next-pos tile)
-  ; Add tile to the existing picture in next-pos
-  )
+  ;;(format T "Before adding tile: picture: ~A, next-pos: ~A, tile: ~A~%" picture next-pos tile)
+  (setf (aref picture (array-pos-col next-pos picture) (array-pos-row next-pos picture)) tile)
+  ;;(format T "After: picture: ~A, next-pos: ~A, tile: ~A~%" picture next-pos tile)
+  picture)
 
 (defun calculate-result (picture)
-  ; Calculate the result for the finished picture
-  )
+  (let* ((array-dims (array-dimensions picture))
+         (max-row (1- (cadr array-dims)))
+         (max-col (1- (car array-dims))))
+    (* (car (aref picture 0 0))
+       (car (aref picture max-col 0))
+       (car (aref picture 0 max-row))
+       (car (aref picture max-col max-row)))))
 
 ;; Return the tile id
 (defun tile-id (tile)
   (car tile))
 
-(defun build-picture (picture tiles position)
-  (if ((length tiles) 0)
+(defparameter tiles (parse-input day20-test-input))
+
+;; (0,0) - top left hand corner
+;; (x,y) - indexing down array then across... (significant for tile matching)
+(defun array-pos-row (next-pos picture)
+  (floor (/ next-pos (car (array-dimensions picture)))))
+
+(defun array-pos-col (next-pos picture)
+  (mod next-pos (car (array-dimensions picture))))
+
+(defun array-pos (next-pos picture)
+  (list
+   (array-pos-col next-pos picture)
+   (array-pos-row next-pos picture)))
+
+;; input parameters:
+;; - picture - array of tiles positioned
+;; - tiles - list of remaining tiles to be added to the picture (unrotated)
+;; - next-pos - (x y) - position to test for next tile
+
+(defun build-picture (picture tiles next-pos)
+  (if (= (length tiles) 0) ;; Picture is fully constructed - return result
       (calculate-result picture)
-      (loop :for tile :in tiles
-            :do (loop :for rot-tile in (tile-rotations tile)
-                      :do 
-                         (if (tile-fit picture position rot-tile)
-                             (let ((result
-                                     (build-picture
-                                      (add-to-picture picture
-                                                      position
-                                                      rot-tile)
-                                      (cdr tiles)
-                                      (increment next-pos))))
-                               (if (not (equal result 0))
-                                   result)
-                               0))))))
-                
-                ;; for each tile-rotation
-                ;; Check to see if the tile fits the picture at the next-possible
-                ;; if it does,
-                ;;     Add the tile to the picture
-                ;;     Remove the tile from the list of tiles
-                ;;     call build-picture with the new picture, tiles and new next-possible
-                ;;
-            
-      
-(defun increment-position (position)
-  ; return the next position requiring a tile
-  )
+      (loop :for tile :in tiles ;; Need to locate the next tile
+            :do (loop :for rot-tile in (tile-rotations tile) ;; step through the tile rotations
+                      :do (if (tile-fit-pred picture next-pos rot-tile) ;; Check if the tile fits
+                              (let ((result (build-picture (add-to-picture picture next-pos rot-tile)
+                                                           (cdr tiles)
+                                                           (1+ next-pos))))
+                                (if (not (equal result 0))
+                                    result
+                                    0)))))))
+
+
+(defun part1 (input-file)
+  (let* ((tiles (parse-input input-file))
+         (pic-size (round (sqrt (length tiles))))
+         (picture (make-array (list pic-size pic-size)))
+         (next-pos 0))
+    (build-picture picture tiles next-pos)))
+
+(defun test1 ()
+  (part1 day20-test-input))
+
+;;-------------------------------------------------------------------------------------------
+;; These functions are working:
 
 (defun edge-rotate (edge)
   (parse-integer (reverse
@@ -134,10 +165,10 @@
   ;; South to West - no change
   ;; West to North - rotation required
   (let ((edges (cadr tile)))
-    (list (car tile) (list (edge-rotate (cadddr edges))
-                           (car edges)
-                           (edge-rotate (cadr edges))
-                           (caddr edges)))))
+    (list (car tile) (list (edge-rotate (cadddr edges)) ;; W to N
+                           (car edges)                  ;; N to E
+                           (edge-rotate (cadr edges))   ;; E to S
+                           (caddr edges)))))            ;; S to W
 
 (defun tile-rotations (tile)
   (let* ((1st-rotation (tile-rotate tile))
