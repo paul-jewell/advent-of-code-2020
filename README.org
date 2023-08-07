@@ -32,7 +32,7 @@ In particular:
     original cond statement approach. I could have got part 2 in the
     end, but who knows how many hours it would have taken untangling
     the spaghetti code I had created. I am expecting to have to do
-    more with the code reading over the next days, based on what I was
+    more with the code reading over the next days, based on where I was
     in 2018, so I have plenty of opportunities to work with this code
     going forward. In the meantime, thanks David!
   - Day 13 - I had a function which worked, but was horrendously
