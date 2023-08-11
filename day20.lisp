@@ -15,9 +15,6 @@
                                           (list tile-number tile-image))) 
                                       tile-strs))))
 
-(defun test1 ()
-  (parse-input day20-test-input))
-
 (defun numerate-string (str)
   (parse-integer
    (concatenate 'string
