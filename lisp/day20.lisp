@@ -56,7 +56,7 @@
   (funcall cardinal (aref picture (array-pos-col position picture) (array-pos-row position picture))))
 
 (defun tile-fit-pred (picture next-pos tile)
-  (format T "picture: ~A, next-pos: ~A, tile: ~A~%" picture next-pos tile)
+  ;;(format T "picture: ~A, next-pos: ~A, tile: ~A~%" picture next-pos tile)
   (let ((position (array-pos next-pos picture)))
     (if (= (car position) 0) ;; First column
         (if  (= (cadr position) 0) ;; First cell - top left - automatically fit!
@@ -138,12 +138,17 @@
                                     0)))))))
 
 
+
 (defun part1 (input-file)
-  (let* ((tiles (parse-input input-file))
+  (let* ((input-tiles (parse-input input-file))
          (pic-size (round (sqrt (length tiles))))
          (picture (make-array (list pic-size pic-size)))
-         (next-pos 0))
-    (build-picture picture tiles next-pos)))
+         (next-pos 0)
+         (tile-list (rotate-list input-tiles)))
+    (loop for tiles in tile-list
+          collect (build-picture picture tiles next-pos))))
+
+
 
 (defun test1 ()
   (part1 day20-test-input))
@@ -168,9 +173,30 @@
                            (caddr edges)))))            ;; S to W
 
 (defun tile-rotations (tile)
+  "Perform tile rotation and return list of rotations"
   (let* ((1st-rotation (tile-rotate tile))
          (2nd-rotation (tile-rotate 1st-rotation))
-         (3rd-rotation (tile-rotate 2nd-rotation)))
-    (list tile 1st-rotation 2nd-rotation 3rd-rotation)))
+         (3rd-rotation (tile-rotate 2nd-rotation))
+         (flipped-tile (tile-flip tile))
+         (flipped-tile-1st-rotation (tile-rotate flipped-tile))
+         (flipped-tile-2nd-rotation (tile-rotate flipped-tile-1st-rotation))
+         (flipped-tile-3rd-rotation (tile-rotate flipped-tile-2nd-rotation))
+         )
+    (list tile 1st-rotation 2nd-rotation 3rd-rotation
+          flipped-tile flipped-tile-1st-rotation flipped-tile-2nd-rotation flipped-tile-3rd-rotation)))
 
+(defun tile-flip (tile)
+  (let ((edges (cadr tile)))
+    (list (car tile) (list (car edges)
+                           (cadddr edges)
+                           (caddr edges)
+                           (cadr edges)))))
+
+
+(defun rotate-list (list)
+  "Rotate a list returning a list of all the rotations possible"
+  (let ((list-length (length list)))
+    (loop for l below list-length
+          collect (let ((element (nth  l list)))
+                    (reverse  (append (remove element list :test #'equal) (cons element ())))))))
 
